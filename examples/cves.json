@@ -1,0 +1,151 @@
+"scannedCves": {
+    "CVE-2009-5080": {
+        "cveID": "CVE-2009-5080",
+        "confidences": [
+            {
+                "score": 100,
+                "detectionMethod": "OvalMatch"
+            }
+        ],
+        "affectedPackages": [
+            {
+                "name": "groff-base",
+                "notFixedYet": true,
+                "fixState": "open"
+            }
+        ],
+        "cveContents": {
+            "nvd": [
+                {
+                    "type": "nvd",
+                    "cveID": "CVE-2009-5080",
+                    "title": "",
+                    "summary": "The (1) contrib/eqn2graph/eqn2graph.sh, (2) contrib/grap2graph/grap2graph.sh, and (3) contrib/pic2graph/pic2graph.sh scripts in GNU troff (aka groff) 1.21 and earlier do not properly handle certain failed attempts to create temporary directories, which might allow local users to overwrite arbitrary files via a symlink attack on a file in a temporary directory, a different vulnerability than CVE-2004-1296.",
+                    "cvss2Score": 3.3,
+                    "cvss2Vector": "AV:L/AC:M/Au:N/C:N/I:P/A:P",
+                    "cvss2Severity": "LOW",
+                    "cvss3Score": 0,
+                    "cvss3Vector": "",
+                    "cvss3Severity": "",
+                    "sourceLink": "https://nvd.nist.gov/vuln/detail/CVE-2009-5080",
+                    "references": [
+                        {
+                            "link": "http://cvsweb.openwall.com/cgi/cvsweb.cgi/Owl/packages/groff/groff-1.20.1-owl-tmp.diff",
+                            "source": "CONFIRM",
+                            "tags": [
+                                "Patch"
+                            ]
+                        },
+                        {
+                            "link": "http://cvsweb.openwall.com/cgi/cvsweb.cgi/Owl/packages/groff/groff-1.20.1-owl-tmp.diff.diff?r1=1.1;r2=1.2;f=h",
+                            "source": "CONFIRM",
+                            "tags": [
+                                "Patch"
+                            ]
+                        },
+                        {
+                            "link": "http://openwall.com/lists/oss-security/2009/08/14/4",
+                            "source": "MLIST",
+                            "tags": [
+                                "Patch"
+                            ]
+                        },
+                        {
+                            "link": "http://openwall.com/lists/oss-security/2009/08/14/5",
+                            "source": "MLIST",
+                            "tags": [
+                                "Patch"
+                            ]
+                        },
+                        {
+                            "link": "http://www.mandriva.com/security/advisories?name=MDVSA-2013:085",
+                            "source": "MANDRIVA"
+                        },
+                        {
+                            "link": "http://www.mandriva.com/security/advisories?name=MDVSA-2013:086",
+                            "source": "MANDRIVA"
+                        }
+                    ],
+                    "cweIDs": [
+                        "CWE-59"
+                    ],
+                    "published": "2011-06-30T15:55:00Z",
+                    "lastModified": "2013-12-13T04:34:00Z"
+                }
+            ],
+            "redhat_api": [
+                {
+                    "type": "redhat_api",
+                    "cveID": "CVE-2009-5080",
+                    "title": "CVE-2009-5080 groff: improper handling of failed attempts to create temporary directories in eqn2graph/pic2graph/grap2graph",
+                    "summary": "The (1) contrib/eqn2graph/eqn2graph.sh, (2) contrib/grap2graph/grap2graph.sh, and (3) contrib/pic2graph/pic2graph.sh scripts in GNU troff (aka groff) 1.21 and earlier do not properly handle certain failed attempts to create temporary directories, which might allow local users to overwrite arbitrary files via a symlink attack on a file in a temporary directory, a different vulnerability than CVE-2004-1296.",
+                    "cvss2Score": 1.9,
+                    "cvss2Vector": "AV:L/AC:M/Au:N/C:N/I:P/A:N",
+                    "cvss2Severity": "Low",
+                    "cvss3Score": 0,
+                    "cvss3Vector": "",
+                    "cvss3Severity": "",
+                    "sourceLink": "https://access.redhat.com/security/cve/CVE-2009-5080",
+                    "published": "2009-08-14T00:00:00Z",
+                    "lastModified": "0001-01-01T00:00:00Z"
+                }
+            ],
+            "ubuntu": [
+                {
+                    "type": "ubuntu",
+                    "cveID": "CVE-2009-5080",
+                    "title": "CVE-2009-5080 on Ubuntu 20.04 LTS (focal) - low.",
+                    "summary": "The (1) contrib/eqn2graph/eqn2graph.sh, (2) contrib/grap2graph/grap2graph.sh, and (3) contrib/pic2graph/pic2graph.sh scripts in GNU troff (aka groff) 1.21 and earlier do not properly handle certain failed attempts to create temporary directories, which might allow local users to overwrite arbitrary files via a symlink attack on a file in a temporary directory, a different vulnerability than CVE-2004-1296.",
+                    "cvss2Score": 0,
+                    "cvss2Vector": "",
+                    "cvss2Severity": "Low",
+                    "cvss3Score": 0,
+                    "cvss3Vector": "",
+                    "cvss3Severity": "Low",
+                    "sourceLink": "http://people.ubuntu.com/~ubuntu-security/cve/CVE-2009-5080",
+                    "references": [
+                        {
+                            "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2009-5080",
+                            "source": "CVE",
+                            "refID": "CVE-2009-5080"
+                        },
+                        {
+                            "link": "https://ubuntu.com/security/CVE-2009-5080",
+                            "source": "Ref"
+                        }
+                    ],
+                    "published": "0001-01-01T00:00:00Z",
+                    "lastModified": "0001-01-01T00:00:00Z"
+                }
+            ],
+            "ubuntu_api": [
+                {
+                    "type": "ubuntu_api",
+                    "cveID": "CVE-2009-5080",
+                    "title": "",
+                    "summary": "The (1) contrib/eqn2graph/eqn2graph.sh, (2) contrib/grap2graph/grap2graph.sh, and (3) contrib/pic2graph/pic2graph.sh scripts in GNU troff (aka groff) 1.21 and earlier do not properly handle certain failed attempts to create temporary directories, which might allow local users to overwrite arbitrary files via a symlink attack on a file in a temporary directory, a different vulnerability than CVE-2004-1296.",
+                    "cvss2Score": 0,
+                    "cvss2Vector": "",
+                    "cvss2Severity": "low",
+                    "cvss3Score": 0,
+                    "cvss3Vector": "",
+                    "cvss3Severity": "low",
+                    "sourceLink": "https://ubuntu.com/security/CVE-2009-5080",
+                    "references": [
+                        {
+                            "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2009-5080",
+                            "source": "CVE"
+                        }
+                    ],
+                    "published": "2011-06-30T15:55:00Z",
+                    "lastModified": "0001-01-01T00:00:00Z"
+                }
+            ]
+        },
+        "alertDict": {
+            "cisa": null,
+            "jpcert": null,
+            "uscert": null
+        }
+    }
+}
