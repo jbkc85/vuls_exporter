@@ -1,9 +1,7 @@
 package main
 
-import "github.com/prometheus/client_golang/prometheus"
-
 type cve struct {
-	AffectedPackages []cveAffectedPackages   `json:"affectedPackages"`
+	AffectedPackages []cveAffectedPackages   `mapstructure:"affectedPackages"`
 	CVEID            string                  `json:"cveID"`
 	Confidence       []cveConfidences        `json:"confidences"`
 	Contents         map[string][]cveContent `json:"cveContents"`
@@ -30,17 +28,6 @@ type cveContent struct {
 	Type          string  `json:"type"`
 }
 
-var (
-	cveContentsGauge = prometheus.NewGaugeVec(
-		prometheus.GaugeOpts{
-			Namespace: "vuls",
-			Subsystem: "cve",
-			Name:      "contents",
-			Help:      "CVE Contents found on the matched group or scanned hosts.",
-		}, []string{"name", "database", "severity", "serverName"},
-	)
-)
-
 func (cc *cveContent) returnCVSSeverity() string {
 	var score float32
 	if cc.CVSS3Score != 0 {
@@ -63,6 +50,11 @@ func (cc *cveContent) returnCVSSeverity() string {
 	}
 }
 
-func registerCVEMetrics() {
-	prometheus.MustRegister(cveContentsGauge)
+func returnFixState(affectedPackages []cveAffectedPackages) bool {
+	for _, affectedPackage := range affectedPackages {
+		if affectedPackage.NotFixedYet {
+			return false
+		}
+	}
+	return true
 }

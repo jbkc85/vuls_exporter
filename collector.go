@@ -19,7 +19,7 @@ func newVulsCollector() *vulsCollector {
 		cveContents: prometheus.NewDesc(
 			prometheus.BuildFQName(PROMETHEUS_NAMESPACE, "cve", "contents"),
 			"Aggregated Findings from CVE Contents exported by Vuls",
-			[]string{"database", "severity", "serverName"}, nil,
+			[]string{"database", "severity", "serverName", "state"}, nil,
 		),
 		resultLastScanned: prometheus.NewDesc(
 			prometheus.BuildFQName(PROMETHEUS_NAMESPACE, "server", "last_scanned"),
@@ -60,8 +60,14 @@ func (collector *vulsCollector) Collect(ch chan<- prometheus.Metric) {
 				ch <- prometheus.MustNewConstMetric(
 					collector.cveContents,
 					prometheus.GaugeValue,
-					float64(findings),
-					database, severity, server,
+					float64(findings.FixedCVEs),
+					database, severity, server, "fixed",
+				)
+				ch <- prometheus.MustNewConstMetric(
+					collector.cveContents,
+					prometheus.GaugeValue,
+					float64(findings.OpenCVEs),
+					database, severity, server, "not_fixed",
 				)
 			}
 		}

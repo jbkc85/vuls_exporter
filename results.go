@@ -7,7 +7,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/prometheus/client_golang/prometheus"
 	"github.com/spf13/cobra"
 )
 
@@ -24,23 +23,7 @@ var (
 		Short: "Parse results from Vuls.",
 		Run:   testParseResults,
 	}
-
-	resultLastScannedGauge = prometheus.NewGaugeVec(
-		prometheus.GaugeOpts{
-			Namespace: "vuls",
-			Subsystem: "server",
-			Name:      "last_scanned",
-			Help:      "Gauge to provide a timestamp on the server results Last Scanned.",
-		}, []string{"serverName"},
-	)
-	// server results metrics:
-	// - last scanned
-
 )
-
-func registerResultsMetrics() {
-	prometheus.MustRegister(resultLastScannedGauge)
-}
 
 func testParseResults(cmd *cobra.Command, args []string) {
 	initializeConfig()
@@ -79,33 +62,41 @@ func parseResults() map[string]results {
 	return parsedResults
 }
 
-func (r *results) aggregateSeverities() map[string]map[string]int {
-	severityResults := make(map[string]map[string]int)
+type severityResult struct {
+	CVEs      int `json:"cves"`
+	OpenCVEs  int `json:"open_cves"`
+	FixedCVEs int `json:"fixed_cves"`
+}
+
+func (r *results) aggregateSeverities() map[string]map[string]severityResult {
+	severityResults := make(map[string]map[string]severityResult)
 	for _, cveMeta := range r.CVEs {
 		for database, contents := range cveMeta.Contents {
+			cveFixed := 0
+			cveNotFixed := 0
 			if _, ok := severityResults[database]; !ok {
-				severityResults[database] = make(map[string]int)
+				severityResults[database] = make(map[string]severityResult)
+			}
+			if returnFixState(cveMeta.AffectedPackages) {
+				cveFixed++
+			} else {
+				cveNotFixed++
 			}
 			severity := contents[0].returnCVSSeverity()
 			if _, ok := severityResults[database][severity]; !ok {
-				severityResults[database][severity] = 1
+				severityResults[database][severity] = severityResult{
+					CVEs:      1,
+					FixedCVEs: cveFixed,
+					OpenCVEs:  cveNotFixed,
+				}
 			} else {
-				severityResults[database][severity] = severityResults[database][severity] + 1
+				newResults := severityResults[database][severity]
+				newResults.CVEs++
+				newResults.FixedCVEs = newResults.FixedCVEs + cveFixed
+				newResults.OpenCVEs = newResults.OpenCVEs + cveNotFixed
+				severityResults[database][severity] = newResults
 			}
 		}
 	}
 	return severityResults
-}
-
-func (r *results) resultMetrics() {
-	for cveName, cveMeta := range r.CVEs {
-		for database, content := range cveMeta.Contents {
-			cveContentsGauge.WithLabelValues(
-				cveName,
-				database,
-				content[0].returnCVSSeverity(),
-				r.ServerName,
-			).Set(1)
-		}
-	}
 }
